@@ -1,0 +1,7 @@
+## Interface: 120000, 120001
+## Title: Monka's Graphics Optimizer
+## Notes: Adds an Escape menu button that applies FPS-focused graphics settings.
+## Author: GitHub Copilot
+## Version: 1.0.0
+
+MonkasGraphicsOptimizer.lua
