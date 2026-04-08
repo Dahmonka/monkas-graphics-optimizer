@@ -19,6 +19,7 @@ local OPTIMIZED_CVARS = {
 }
 
 local DISPLAY_NAME = "Monka's Graphics Optimizer"
+local BUTTON_LABEL = "Optimize Graphics"
 
 local function PrintMessage(message)
     print(string.format("|cff33cc99[%s]|r %s", ADDON_NAME or DISPLAY_NAME, message))
@@ -80,7 +81,7 @@ local function AddGameMenuButton(menuFrame)
         return
     end
 
-    local button = menuFrame:AddButton(DISPLAY_NAME, function()
+    local button = menuFrame:AddButton(BUTTON_LABEL, function()
         if ApplyOptimizedGraphics() then
             HideUIPanel(menuFrame)
         end
