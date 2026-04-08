@@ -44,17 +44,23 @@ local function ApplyOptimizedGraphics()
     return true
 end
 
-local function FindGameMenuButton(menuFrame, ...)
+local function FindGameMenuButton(menuFrame, targetText)
     if not menuFrame or not menuFrame.buttonPool then
         return
     end
 
     for menuButton in menuFrame.buttonPool:EnumerateActive() do
-        local text = menuButton:GetText()
-        for index = 1, select("#", ...) do
-            if text == select(index, ...) then
-                return menuButton
-            end
+        if menuButton:GetText() == targetText then
+            return menuButton
+        end
+    end
+end
+
+local function FindFirstGameMenuButton(menuFrame, ...)
+    for index = 1, select("#", ...) do
+        local menuButton = FindGameMenuButton(menuFrame, select(index, ...))
+        if menuButton then
+            return menuButton
         end
     end
 end
@@ -87,17 +93,20 @@ local function AddGameMenuButton(menuFrame)
         end
     end)
 
-    local referenceButton = FindGameMenuButton(
-        menuFrame,
-        ADDONS,
-        GAMEMENU_NEW_BUTTON,
-        HUD_EDIT_MODE_MENU,
-        GAMEMENU_SUPPORT,
-        MACROS,
-        GameMenuFrameMixin and GameMenuFrameMixin.GetLogoutText and menuFrame:GetLogoutText() or LOG_OUT,
-        EXIT_GAME,
-        RETURN_TO_GAME
-    )
+    local referenceButton = FindGameMenuButton(menuFrame, ADDONS)
+
+    if not referenceButton then
+        referenceButton = FindFirstGameMenuButton(
+            menuFrame,
+            GAMEMENU_NEW_BUTTON,
+            HUD_EDIT_MODE_MENU,
+            GAMEMENU_SUPPORT,
+            MACROS,
+            GameMenuFrameMixin and GameMenuFrameMixin.GetLogoutText and menuFrame:GetLogoutText() or LOG_OUT,
+            EXIT_GAME,
+            RETURN_TO_GAME
+        )
+    end
 
     if referenceButton then
         InsertGameMenuButtonBefore(menuFrame, button, referenceButton)
