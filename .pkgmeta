@@ -1,1 +1,3 @@
 package-as: Monka's Graphics Optimizer
+ignore:
+	- releases
